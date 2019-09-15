@@ -22,25 +22,30 @@ public:
 		p.folder = currentfolder;
 		p.subfolder = s;
 		this->system.push_back(p);
-		//if ha már van ilyen mappa
+		//megkeresni azt az elemet amit a cd visszaad és amögé beszúrni a köv foldert
 	}
-	void listAllFolders() {
+	void listAllFolders(string chosenFolder) {
+		bool found = false;
+		unordered_set<string> allFolders;
 		for (auto iterate : this->system) {
-			cout << " " << iterate.folder << " " << iterate.subfolder << endl;
-
+			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
+					found = true;
+					allFolders.insert(iterate.folder);
+			}
+		}
+		if (found) {
+			for (auto itr = allFolders.begin(); itr != allFolders.end(); ++itr)
+				cout << *itr << '/';
 		}
 	}
 
 	void changeDirectory(string chosenFolder) {
-		int iter = 0;
-		int iter2 = 0;
 		bool found = false;
 		string whichFolder;
 		unordered_set<string> allFolders;
 		for (auto iterate : this->system) {
-			iter++;
 			allFolders.insert(iterate.folder);
-			if (iterate.folder==chosenFolder || iterate.subfolder == chosenFolder) {
+			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
 				found = true;
 				whichFolder = chosenFolder;
 				break;
@@ -52,11 +57,11 @@ public:
 				cout << *itr << '/';
 			cout << chosenFolder << endl;
 		}
-		
+
 		else cout << "invalid folder name" << endl;
-		
+
 	}
-	
+
 	string changeToUpperFolder(string chosenFolder) {
 		int iter = 0;
 		int iter2 = 0;
@@ -93,22 +98,27 @@ void main() {
 	while (parancs != "q") {
 		cout << "C:/Users/Fruzsi>";
 		cin >> parancs;
-		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs!="cd" && parancs!="cd..") {
+		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs != "cd" && parancs != "cd..") {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		if (parancs == "mkdir") {
+			string temp;
 			cout << "Directoryname:";
 			string dirname;
 			cin >> dirname;
 			d.mkdir(dirname, CurrentFolder);
+			temp = CurrentFolder;
 			CurrentFolder = dirname;
+			dirname = temp;
 		}
 		if (parancs == "ls") {
-			d.listAllFolders();
+			cout << CurrentFolder;
+			d.listAllFolders(CurrentFolder);
 		}
 		if (parancs == "cd") {
 			string dirname;
-			cin >> dirname;  
+			cin >> dirname;
+			CurrentFolder = dirname;
 			currentFolderCd = dirname;
 			d.changeDirectory(dirname);
 		}
