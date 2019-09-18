@@ -33,16 +33,18 @@ public:
 			//cout << ":::" << iterate.folder <<" : " << iterate.subfolder << " ::: ";
 			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
 					found = true;
-					for (auto iterate+iterateUntilFound : this->system ){
-						cout << ":::" << it2.folder << " : " << it2.subfolder << " ::: ";
-						allFolders.insert(it2.folder);
-						allFolders.insert(it2.subfolder);
+					vector<Pair>::iterator iterateToFind = this->system.begin() + iterateUntilFound;
+					
+					for (iterateToFind;iterateToFind!=this->system.end();iterateToFind++) {
+						//cout << ":::" << iterateToFind->folder << " : " << iterateToFind->subfolder << " ::: ";
+						allFolders.insert(iterateToFind->folder);
+						allFolders.insert(iterateToFind->subfolder);
 					}
 			}
 		}
 		if (found) {
 			for (auto itr = allFolders.begin(); itr != allFolders.end(); ++itr)
-				cout << *itr << '/';
+				cout << *itr << '/' << endl;
 		}
 	}
 
