@@ -24,6 +24,14 @@ public:
 		this->system.push_back(p);
 		//megkeresni azt az elemet amit a cd visszaad és amögé beszúrni a köv foldert
 	}
+
+	void listByDani(string chosenFolder) {
+		for (auto iterate : this->system) {
+			if (chosenFolder == iterate.folder) {
+				cout << iterate.subfolder;
+			}
+		}
+	}
 	void listAllFolders(string chosenFolder) {
 		bool found = false;
 		int iterateUntilFound = 0;
@@ -139,7 +147,8 @@ void main() {
 		}
 		if (parancs == "ls") {
 			//cout << CurrentFolder;
-			d.listAllFolders(CurrentFolder);
+			//d.listAllFolders(CurrentFolder);
+			d.listByDani(CurrentFolder);
 		}
 	}
 }
