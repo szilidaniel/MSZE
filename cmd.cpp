@@ -43,8 +43,11 @@ public:
 		bool found = false;
 		string whichFolder;
 		unordered_set<string> allFolders;
+		Pair allfolders;
+
 		for (auto iterate : this->system) {
 			allFolders.insert(iterate.folder);
+			allFolders.insert(iterate.subfolder);
 			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
 				found = true;
 				whichFolder = chosenFolder;
@@ -54,8 +57,8 @@ public:
 		if (found) {
 			cout << "C:/Users/Fruzsi/";
 			for (auto itr = allFolders.begin(); itr != allFolders.end(); ++itr)
-				cout << *itr << '/';
-			cout << chosenFolder << endl;
+				cout << *itr << '/' ;
+			cout << endl;
 		}
 
 		else cout << "invalid folder name" << endl;
@@ -106,15 +109,13 @@ void main() {
 			cout << "Directoryname:";
 			string dirname;
 			cin >> dirname;
-			d.mkdir(dirname, CurrentFolder);
-			temp = CurrentFolder;
 			CurrentFolder = dirname;
-			dirname = temp;
+			d.mkdir(dirname, CurrentFolder);
+			//temp = CurrentFolder;
+			CurrentFolder = dirname;
+			//dirname = temp;
 		}
-		if (parancs == "ls") {
-			cout << CurrentFolder;
-			d.listAllFolders(CurrentFolder);
-		}
+		
 		if (parancs == "cd") {
 			string dirname;
 			cin >> dirname;
@@ -124,6 +125,10 @@ void main() {
 		}
 		if (parancs == "cd..") {
 			d.changeToUpperFolder(CurrentFolder);
+		}
+		if (parancs == "ls") {
+			//cout << CurrentFolder;
+			d.listAllFolders(CurrentFolder);
 		}
 	}
 }
