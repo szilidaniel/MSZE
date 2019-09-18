@@ -26,11 +26,18 @@ public:
 	}
 	void listAllFolders(string chosenFolder) {
 		bool found = false;
+		int iterateUntilFound = 0;
 		unordered_set<string> allFolders;
 		for (auto iterate : this->system) {
+			iterateUntilFound++;
+			//cout << ":::" << iterate.folder <<" : " << iterate.subfolder << " ::: ";
 			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
 					found = true;
-					allFolders.insert(iterate.folder);
+					for (auto iterate+iterateUntilFound : this->system ){
+						cout << ":::" << it2.folder << " : " << it2.subfolder << " ::: ";
+						allFolders.insert(it2.folder);
+						allFolders.insert(it2.subfolder);
+					}
 			}
 		}
 		if (found) {
@@ -39,7 +46,7 @@ public:
 		}
 	}
 
-	void changeDirectory(string chosenFolder) {
+	string changeDirectory(string chosenFolder) {
 		bool found = false;
 		string whichFolder;
 		unordered_set<string> allFolders;
@@ -62,6 +69,7 @@ public:
 		}
 
 		else cout << "invalid folder name" << endl;
+		return chosenFolder;
 
 	}
 
@@ -121,7 +129,8 @@ void main() {
 			cin >> dirname;
 			CurrentFolder = dirname;
 			currentFolderCd = dirname;
-			d.changeDirectory(dirname);
+			//d.changeDirectory(dirname);
+			CurrentFolder = d.changeDirectory(dirname);
 		}
 		if (parancs == "cd..") {
 			d.changeToUpperFolder(CurrentFolder);
