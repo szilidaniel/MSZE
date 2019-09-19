@@ -18,17 +18,26 @@ private:
 	vector<Pair> system;
 public:
 	void mkdir(string s, string currentfolder) {
-		Pair p;
-		p.folder = currentfolder;
-		p.subfolder = s;
-		this->system.push_back(p);
-		//megkeresni azt az elemet amit a cd visszaad és amögé beszúrni a köv foldert
+		bool found=false;
+		for (int i = 0; i < this->system.size(); i++) {
+			if (currentfolder == this->system[i].folder && s == this->system[i].subfolder) {
+				found = true;
+			}
+		}
+		if (found) {
+			cout << "This directory already exist" << endl; 
+		} else {
+			Pair p;
+			p.folder = currentfolder;
+			p.subfolder = s;
+			this->system.push_back(p);
+		}
 	}
 
-	void listByDani(string chosenFolder) {
-		for (auto iterate : this->system) {
-			if (chosenFolder == iterate.folder) {
-				cout << iterate.subfolder;
+	void ls(string c) {
+		for (int i = 0; i <this->system.size(); i++) {
+			if (c == this->system[i].folder) {
+				cout << this->system[i].subfolder <<endl;
 			}
 		}
 	}
@@ -40,14 +49,14 @@ public:
 			iterateUntilFound++;
 			//cout << ":::" << iterate.folder <<" : " << iterate.subfolder << " ::: ";
 			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
-					found = true;
-					vector<Pair>::iterator iterateToFind = this->system.begin() + iterateUntilFound;
-					
-					for (iterateToFind;iterateToFind!=this->system.end();iterateToFind++) {
-						//cout << ":::" << iterateToFind->folder << " : " << iterateToFind->subfolder << " ::: ";
-						allFolders.insert(iterateToFind->folder);
-						allFolders.insert(iterateToFind->subfolder);
-					}
+				found = true;
+				vector<Pair>::iterator iterateToFind = this->system.begin() + iterateUntilFound;
+
+				for (iterateToFind; iterateToFind != this->system.end(); iterateToFind++) {
+					//cout << ":::" << iterateToFind->folder << " : " << iterateToFind->subfolder << " ::: ";
+					allFolders.insert(iterateToFind->folder);
+					allFolders.insert(iterateToFind->subfolder);
+				}
 			}
 		}
 		if (found) {
@@ -74,7 +83,7 @@ public:
 		if (found) {
 			cout << "C:/Users/Fruzsi/";
 			for (auto itr = allFolders.begin(); itr != allFolders.end(); ++itr)
-				cout << *itr << '/' ;
+				cout << *itr << '/';
 			cout << endl;
 		}
 
@@ -124,16 +133,11 @@ void main() {
 		}
 		if (parancs == "mkdir") {
 			string temp;
-			cout << "Directoryname:";
 			string dirname;
 			cin >> dirname;
-			CurrentFolder = dirname;
 			d.mkdir(dirname, CurrentFolder);
-			//temp = CurrentFolder;
-			CurrentFolder = dirname;
-			//dirname = temp;
 		}
-		
+
 		if (parancs == "cd") {
 			string dirname;
 			cin >> dirname;
@@ -142,13 +146,11 @@ void main() {
 			//d.changeDirectory(dirname);
 			CurrentFolder = d.changeDirectory(dirname);
 		}
-		if (parancs == "cd..") {
+		if (parancs == "cd ..") {
 			d.changeToUpperFolder(CurrentFolder);
 		}
 		if (parancs == "ls") {
-			//cout << CurrentFolder;
-			//d.listAllFolders(CurrentFolder);
-			d.listByDani(CurrentFolder);
+			d.ls(CurrentFolder);
 		}
 	}
 }
