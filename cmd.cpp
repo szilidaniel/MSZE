@@ -18,26 +18,30 @@ private:
 	vector<Pair> system;
 public:
 	void mkdir(string s, string currentfolder) {
-		bool found=false;
+		bool found = false;
 		for (int i = 0; i < this->system.size(); i++) {
 			if (currentfolder == this->system[i].folder && s == this->system[i].subfolder) {
 				found = true;
 			}
 		}
 		if (found) {
-			cout << "This directory already exist" << endl; 
-		} else {
+			cout << "This directory already exist" << endl;
+		}
+		if (s != "..") {
 			Pair p;
 			p.folder = currentfolder;
 			p.subfolder = s;
 			this->system.push_back(p);
 		}
+		else {
+			cout << "Invalid foldername" << endl;
+		}
 	}
 
 	void ls(string c) {
-		for (int i = 0; i <this->system.size(); i++) {
+		for (int i = 0; i < this->system.size(); i++) {
 			if (c == this->system[i].folder) {
-				cout << this->system[i].subfolder <<endl;
+				cout << this->system[i].subfolder << endl;
 			}
 		}
 	}
@@ -65,7 +69,7 @@ public:
 		}
 	}
 
-	string changeDirectory(string chosenFolder) {
+	string changeDirectory(string chosenFolder, string currentfolder) {
 		bool found = false;
 		string whichFolder;
 		unordered_set<string> allFolders;
@@ -81,7 +85,7 @@ public:
 			}
 		}
 		if (found) {
-			cout << "C:/Users/Fruzsi/";
+			cout << "C:/root/";
 			for (auto itr = allFolders.begin(); itr != allFolders.end(); ++itr)
 				cout << *itr << '/';
 			cout << endl;
@@ -92,7 +96,7 @@ public:
 
 	}
 
-	string changeToUpperFolder(string chosenFolder) {
+	/*string changeToUpperFolder(string chosenFolder, string autotext) {
 		int iter = 0;
 		int iter2 = 0;
 		bool found = false;
@@ -105,18 +109,18 @@ public:
 			}
 		}
 		if (found) {
-			cout << "C:/Users/Fruzsi/";
+			autotext += "C:/Users/Fruzsi/";
 			for (auto iterate : this->system) {
 				if (iter2 <= iter) {
-					cout << iterate.folder << "/";
+					autotext += iterate.folder + "/";
 				}
 				iter2++;
 
-			}cout << endl;
+			}autotext += ">";
 		}
 		else cout << "invalid folder name" << endl;
-		return chosenFolder;
-	}
+		return autotext;
+	}*/
 };
 
 void main() {
@@ -125,8 +129,10 @@ void main() {
 	Dictionary d;
 	string parancs;
 	string currentFolderCd;
+
 	while (parancs != "q") {
-		cout << "C:/Users/Fruzsi>";
+		string autotext = "C:/" + CurrentFolder + ">";
+		cout << autotext;
 		cin >> parancs;
 		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs != "cd" && parancs != "cd..") {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
@@ -137,18 +143,24 @@ void main() {
 			cin >> dirname;
 			d.mkdir(dirname, CurrentFolder);
 		}
-
 		if (parancs == "cd") {
 			string dirname;
 			cin >> dirname;
-			CurrentFolder = dirname;
-			currentFolderCd = dirname;
-			//d.changeDirectory(dirname);
-			CurrentFolder = d.changeDirectory(dirname);
+			if (dirname == "..") {
+				if (CurrentFolder != "root") {
+					int cut = CurrentFolder.find_last_of("/");
+					CurrentFolder = CurrentFolder.substr(0, cut - 1);
+					cout << "\n ----------- \n" << CurrentFolder << "\n ------------ \n"; //Kizárólag debugolásra készült sor.
+				}
+				else {
+					cout << "You're already in the root directory." << endl;
+				}
+			}
+			else {
+				CurrentFolder = d.changeDirectory(dirname, CurrentFolder);
+			}
 		}
-		if (parancs == "cd ..") {
-			d.changeToUpperFolder(CurrentFolder);
-		}
+
 		if (parancs == "ls") {
 			d.ls(CurrentFolder);
 		}
