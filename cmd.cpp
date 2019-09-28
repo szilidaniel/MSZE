@@ -1,9 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <set>
-#include <unordered_set>
+
 using namespace std;
 
 struct Pair {
@@ -45,82 +43,20 @@ public:
 			}
 		}
 	}
-	void listAllFolders(string chosenFolder) {
-		bool found = false;
-		int iterateUntilFound = 0;
-		unordered_set<string> allFolders;
-		for (auto iterate : this->system) {
-			iterateUntilFound++;
-			//cout << ":::" << iterate.folder <<" : " << iterate.subfolder << " ::: ";
-			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
-				found = true;
-				vector<Pair>::iterator iterateToFind = this->system.begin() + iterateUntilFound;
-
-				for (iterateToFind; iterateToFind != this->system.end(); iterateToFind++) {
-					//cout << ":::" << iterateToFind->folder << " : " << iterateToFind->subfolder << " ::: ";
-					allFolders.insert(iterateToFind->folder);
-					allFolders.insert(iterateToFind->subfolder);
-				}
+	string cd(string chosen, string current) {
+		int found = 0;
+		for (int i = 0; i < this->system.size(); i++) {
+			if (current == this->system[i].folder && chosen == this->system[i].subfolder) {
+				current += "/" + chosen;
+				found++;
 			}
 		}
-		if (found) {
-			for (auto itr = allFolders.begin(); itr != allFolders.end(); ++itr)
-				cout << *itr << '/' << endl;
+		if (found == 0) {
+			cout << "No such file in this directory" << endl;
 		}
+		return current;
 	}
 
-	string changeDirectory(string chosenFolder, string currentfolder) {
-		bool found = false;
-		string whichFolder;
-		unordered_set<string> allFolders;
-		Pair allfolders;
-
-		for (auto iterate : this->system) {
-			allFolders.insert(iterate.folder);
-			allFolders.insert(iterate.subfolder);
-			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
-				found = true;
-				whichFolder = chosenFolder;
-				break;
-			}
-		}
-		if (found) {
-			cout << "C:/root/";
-			for (auto itr = allFolders.begin(); itr != allFolders.end(); ++itr)
-				cout << *itr << '/';
-			cout << endl;
-		}
-
-		else cout << "invalid folder name" << endl;
-		return chosenFolder;
-
-	}
-
-	/*string changeToUpperFolder(string chosenFolder, string autotext) {
-		int iter = 0;
-		int iter2 = 0;
-		bool found = false;
-		string whichFolder;
-		for (auto iterate : this->system) {
-			iter++;
-			if (iterate.folder == chosenFolder || iterate.subfolder == chosenFolder) {
-				found = true;
-				break;
-			}
-		}
-		if (found) {
-			autotext += "C:/Users/Fruzsi/";
-			for (auto iterate : this->system) {
-				if (iter2 <= iter) {
-					autotext += iterate.folder + "/";
-				}
-				iter2++;
-
-			}autotext += ">";
-		}
-		else cout << "invalid folder name" << endl;
-		return autotext;
-	}*/
 };
 
 void main() {
@@ -149,7 +85,7 @@ void main() {
 			if (dirname == "..") {
 				if (CurrentFolder != "root") {
 					int cut = CurrentFolder.find_last_of("/");
-					CurrentFolder = CurrentFolder.substr(0, cut - 1);
+					CurrentFolder = CurrentFolder.substr(0, cut);
 					cout << "\n ----------- \n" << CurrentFolder << "\n ------------ \n"; //Kizárólag debugolásra készült sor.
 				}
 				else {
@@ -157,7 +93,7 @@ void main() {
 				}
 			}
 			else {
-				CurrentFolder = d.changeDirectory(dirname, CurrentFolder);
+				CurrentFolder = d.cd(dirname, CurrentFolder);
 			}
 		}
 
