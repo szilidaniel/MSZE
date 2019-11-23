@@ -32,12 +32,12 @@ jobs:
       - run: 'doxygen -g'
       - run: 'doxygen Doxyfile'
       - run: 'sudo apt-get install texmaker'
-      - run: 'cd latex'
-      - run: 'pdflatex refman.tex'
-      - run: 'rm -f *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl'
       - store_artifacts:
           path: .
           destination: Doxyfiles
+      - run: 'cd Doxyfiles'
+      - run: 'cd latex'
+      - run: 'make'
 
 workflows:
   version: 2
