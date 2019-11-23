@@ -33,7 +33,7 @@ jobs:
       - run: 'doxygen Doxyfile'
       - run: 'sudo apt-get install texmaker'
       - run: 'cd latex'
-      - run: 'pdflatex refman'
+      - run: 'pdflatex refman.tex'
       - run: 'rm -f *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl'
       - store_artifacts:
           path: .
