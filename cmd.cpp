@@ -2,11 +2,18 @@
 using namespace std;
 
 void Dictionary::mkdir(string dirName, string currentFolder) {
+/**@brief Mappa létrehozása
+*@param dirName egy mappanevet kell megadni a függvénynek, mégpedig amilyen néven létre szeretnénk hozni. 
+*@param currentFolder át kell adni az aktuális tartózkodási helyet a mapparendszeren belül és ott kerül létrehozásra a mappa.
+*/
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
 			found = true;
 		}
+/**@brief Mappa ellenõrzése
+*@return Igaz értéket ad vissza, ha a mappa létezik.
+*/
 	}
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
 		if (dirName == this->fileDescriptorVector[i].fileName && currentFolder == this->fileDescriptorVector[i].filePath) {

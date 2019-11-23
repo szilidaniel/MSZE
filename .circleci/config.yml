@@ -31,6 +31,9 @@ jobs:
       - run: 'sudo apt-get install graphviz'
       - run: 'doxygen -g'
       - run: 'doxygen Doxyfile'
+      - store_artifacts:
+          path: .
+          destination: Doxyfile
 
 workflows:
   version: 2
