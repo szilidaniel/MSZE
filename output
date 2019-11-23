@@ -1,0 +1,8 @@
+Welcome in the terminal. Press 'q' to exit.
+C:/root>C:/root>a
+C:/root>C:/root/a>C:/root/a>C:/root>C:/root>Directory is not empty, deleting content recursively ...
+Deleted:b.txt
+Deleted:a
+C:/root>asd
+C:/root>C:/root/asd>C:/root/asd>C:/root/asd/asd2>C:/root/asd/asd2>C:/root/asd/asd2/ss>C:/root/asd>asd2
+C:/root/asd>

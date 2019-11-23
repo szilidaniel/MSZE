@@ -1,0 +1,16 @@
+mkdir a
+ls
+cd a
+touch b.txt
+cd ..
+mkdir asd
+rm -rf a
+ls
+cd asd
+mkdir asd2
+cd asd2
+mkdir ss
+cd ss
+cd ../..
+ls
+q

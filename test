@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cat input | ./terminal >output
+
+difference=$(diff output GoodOutput)
+
+if [ -z "$difference" ]
+then
+ echo "Passed"
+else
+ echo "Failed"
+fi;
