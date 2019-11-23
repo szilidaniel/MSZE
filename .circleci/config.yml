@@ -33,7 +33,7 @@ jobs:
       - run: 'doxygen Doxyfile'
       - run: 'sudo apt-get install texmaker'
       - run: 'cd latex'
-      - run: 'latex Makefile'
+      - run: 'make'
       - store_artifacts:
           path: .
           destination: Doxyfiles
