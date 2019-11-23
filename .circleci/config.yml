@@ -31,12 +31,12 @@ jobs:
       - run: 'sudo apt-get install graphviz'
       - run: 'doxygen -g'
       - run: 'doxygen Doxyfile'
-      - run: 'sudo apt-get install texlive-full'
       - run: 'sudo apt-get install texmaker'
-      - run: 'latex make'
+      - run: 'cd latex'
+      - run: 'latex Makefile'
       - store_artifacts:
           path: .
-          destination: Doxyfile
+          destination: Doxyfiles
 
 workflows:
   version: 2
