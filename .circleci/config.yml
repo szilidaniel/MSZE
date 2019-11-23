@@ -20,6 +20,59 @@ jobs:
       - run: 'chmod 755 test'
       - run: './test'
 
+  build_docs:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - checkout
+      - run:
+          name: Init dependencies
+          command: |
+            sudo apt install doxygen
+            git clone https://github.com/matusnovak/doxybook.git
+            cd doxybook
+            sudo python setup.py install
+
+      - run:
+          name: Build
+          command: |
+            chmod +x ./doxygen/make.sh
+            ./doxygen/make.sh
+            mkdir /tmp/doxygen
+            cp -v ./doxygen/*.md /tmp/doxygen
+      
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - doxygen
+
+  upload_docs:
+    docker:
+      - image: circleci/node:9
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - checkout
+      - run:
+          name: Init dependencies
+          command: |
+            sudo npm install -g vuepress
+            npm install
+
+      - run:
+          name: Build
+          command: |
+            cp -v /tmp/doxygen/*.md ./doxygen
+            vuepress build || true
+
+      - run:
+          name: Deploy
+          command: |
+            git config --global user.email "szilidaniel98@gmail.com"
+            git config --global user.name "szilidan"
+            npm run publish
+
+
 workflows:
   version: 2
   build_and_test:
@@ -28,3 +81,15 @@ workflows:
       - test:
           requires:
             - build
+      - build_docs:
+          filters:
+            branches:
+              only:
+                - master
+      - upload_docs:
+          requires:
+            - build_docs
+          filters:
+            branches:
+              only:
+                - master
