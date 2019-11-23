@@ -34,6 +34,7 @@ jobs:
       - run: 'sudo apt-get install texmaker'
       - run: 'cd latex'
       - run: 'doxygen -w latex header.tex footer.tex doxygen.sty'
+      - run: 'pdflatex refman.tex'
       - store_artifacts:
           path: .
           destination: Doxyfiles
