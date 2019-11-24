@@ -29,7 +29,13 @@ int main() {
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
-
+/** A main függvényrõl
+*
+*Ez a függvény réteges szerkezetû így elsõ ránézésre if-ek tömegének néz ki, de valójában ezzel sok hely meg lett spórolva.
+*Vannak olyan része a parancsoknak amik bár közösek mégsem érdemes egy függvénybe kiszedni, de egy if-fel el tudjuk különíteni, hogy ne kelljen túl sokszor beírni.
+*Minden parancsot külön kezelünk és elõtte megnézzük szerepel-e az érvéyes parancsok között.
+*Minden függvény a maga hibaüzenetével rendelkezik.
+*/
 	while (parancs != "q") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;

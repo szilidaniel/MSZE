@@ -31,6 +31,7 @@ jobs:
       - run: 'sudo apt-get install graphviz'
       - run: 'doxygen -g'
       - run: 'doxygen Doxyfile'
+      - run: 'sudo apt-get install texlive-full'
       - run: 'sudo apt-get install texmaker'
       - run: 'doxygen -w latex header.tex footer.tex doxygen.sty'
       - store_artifacts:
