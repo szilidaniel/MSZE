@@ -34,6 +34,7 @@ jobs:
       - run: 'sudo apt-get install texlive-full'
       - run: 'sudo apt-get install texmaker'
       - run: 'doxygen -w latex header.tex footer.tex doxygen.sty'
+      - run: 'make doxymake'
       - store_artifacts:
           path: .
           destination: Doxyfiles
