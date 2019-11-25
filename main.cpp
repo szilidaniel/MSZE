@@ -1,16 +1,5 @@
 #include "cmd.h"
 
-bool validcommand(string command) {
-	bool valid = false;
-	vector<string> commands = { "mkdir","q","ls","cd","rm","touch", "echo" };
-	for (unsigned int i = 0; i < commands.size(); i++) {
-		if (command == commands[i]) {
-			valid = true;
-		}
-	}
-	return valid;
-}
-
 vector<string> split(string path) {
 	vector<string> directories;
 	int cut = 0;
@@ -25,22 +14,33 @@ vector<string> split(string path) {
 }
 
 int main() {
-	cout << "Welcome in the terminal. Press 'q' to exit." << endl;
+	cout << "Please add a valid file name to load filesystem from. " << endl;
+	cout << "Welcome in the terminal. Write exit' to exit." << endl;
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
-/** A main függvényrõl
+	string dirname;
+	string fsname;
+	cin >> fsname;
+/** A main fï¿½ggvï¿½nyrï¿½l
 *
-*Ez a függvény réteges szerkezetû így elsõ ránézésre if-ek tömegének néz ki, de valójában ezzel sok hely meg lett spórolva.
-*Vannak olyan része a parancsoknak amik bár közösek mégsem érdemes egy függvénybe kiszedni, de egy if-fel el tudjuk különíteni, hogy ne kelljen túl sokszor beírni.
-*Minden parancsot külön kezelünk és elõtte megnézzük szerepel-e az érvéyes parancsok között.
-*Minden függvény a maga hibaüzenetével rendelkezik.
+*Ez a fï¿½ggvï¿½ny rï¿½teges szerkezetï¿½ ï¿½gy elsï¿½ rï¿½nï¿½zï¿½sre if-ek tï¿½megï¿½nek nï¿½z ki, de valï¿½jï¿½ban ezzel sok hely meg lett spï¿½rolva.
+*Vannak olyan rï¿½sze a parancsoknak amik bï¿½r kï¿½zï¿½sek mï¿½gsem ï¿½rdemes egy fï¿½ggvï¿½nybe kiszedni, de egy if-fel el tudjuk kï¿½lï¿½nï¿½teni, hogy ne kelljen tï¿½l sokszor beï¿½rni.
+*Minden parancsot kï¿½lï¿½n kezelï¿½nk ï¿½s elï¿½tte megnï¿½zzï¿½k szerepel-e az ï¿½rvï¿½yes parancsok kï¿½zï¿½tt.
+*Minden fï¿½ggvï¿½ny a maga hibaï¿½zenetï¿½vel rendelkezik.
 */
-	while (parancs != "q") {
+	while (d.validcommand(fsname)) {
+		cout << "Not valid name. Please add a valid file name to load filesystem from. " << endl;
+		cin >> fsname;
+		if (fsname == "exit") break;
+	}
+	d.loadFromFile(fsname);
+	while (parancs != "exit") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
 		cin >> parancs;
-		if (!validcommand(parancs)) {
+		if (parancs == "exit") break;
+		if (!d.validcommand(parancs)) {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		else {
@@ -115,5 +115,6 @@ int main() {
 			}
 		}
 	}
+	d.writeToFile(fsname);
 	return 0;
 }

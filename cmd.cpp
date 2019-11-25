@@ -1,18 +1,28 @@
 #include "cmd.h"
 using namespace std;
 
+
+Pair::Pair() {
+	this->folder = "";
+	this->subfolder = "";
+}
+Pair::Pair(string folder, string subfolder) {
+	this->folder = folder;
+	this->subfolder = subfolder;
+}
+
 void Dictionary::mkdir(string dirName, string currentFolder) {
-/**@brief Mappa létrehozása
-*@param dirName egy mappanevet kell megadni a függvénynek, mégpedig amilyen néven létre szeretnénk hozni. 
-*@param currentFolder át kell adni az aktuális tartózkodási helyet a mapparendszeren belül és ott kerül létrehozásra a mappa.
+/**@brief Mappa lï¿½trehozï¿½sa
+*@param dirName egy mappanevet kell megadni a fï¿½ggvï¿½nynek, mï¿½gpedig amilyen nï¿½ven lï¿½tre szeretnï¿½nk hozni. 
+*@param currentFolder ï¿½t kell adni az aktuï¿½lis tartï¿½zkodï¿½si helyet a mapparendszeren belï¿½l ï¿½s ott kerï¿½l lï¿½trehozï¿½sra a mappa.
 */
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
 			found = true;
 		}
-/**@brief Mappa ellenõrzése
-*@return Igaz értéket ad vissza, ha a mappa létezik.
+/**@brief Mappa ellenï¿½rzï¿½se
+*@return Igaz ï¿½rtï¿½ket ad vissza, ha a mappa lï¿½tezik.
 */
 	}
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
@@ -25,11 +35,8 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 	}
 	else
 	{
-		if (dirName != "..") {
-			Pair p;
-			p.folder = currentFolder;
-			p.subfolder = dirName;
-			this->system.push_back(p);
+		if (!(this->isNotValid(dirName))) {
+			this->addPairToVector(currentFolder, dirName);
 		}
 		else {
 			cout << "Invalid foldername" << endl;
@@ -265,4 +272,69 @@ void Dictionary::echo(string fileContent, string fileName, string currentFolder)
 		}
 
 	}
+}
+
+void Dictionary::writeToFile(string fsname) {
+	ofstream systemStructure;
+	systemStructure.open(fsname + ".txt");
+	for (unsigned int i = 0; i < this->system.size(); i++) {
+		systemStructure << this->system[i].folder << "/" << this->system[i].subfolder << "\n";
+	}
+	systemStructure.close();
+}
+
+void Dictionary::loadFromFile(string fsname) {
+	string line;
+	ifstream systemStructure(fsname + ".txt");
+	if (systemStructure.is_open())
+	{
+		while (getline(systemStructure, line))
+		{
+			this->splitFolderPath(line);
+		}
+		systemStructure.close();
+	}
+}
+
+void Dictionary::splitString(string& str, vector<string>& out, string delim) {
+	size_t start;
+	size_t end = 0;
+	while ((start = str.find_first_not_of(delim, end)) != std::string::npos)
+	{
+		end = str.find(delim, start);
+		out.push_back(str.substr(start, end - start));
+	}
+}
+
+void Dictionary::addPairToVector(string folder, string subfolder) {
+	Pair p(folder, subfolder);
+	this->system.push_back(p);
+}
+
+void Dictionary::splitFolderPath(string line) {
+	string path = line;
+	int cut = line.find_last_of("/");
+	line = line.substr(cut + 1, line.size());
+	path = path.substr(0, cut);
+	Pair p(path, line);
+	this->system.push_back(p);
+}
+
+bool Dictionary::isNotValid(string dirName) {
+	if (isalpha(dirName[0]))
+		return false;
+	else
+		return true;
+}
+
+
+bool Dictionary::validcommand(string command) {
+	bool valid = false;
+	for (unsigned int i = 0; i < this->commands.size(); i++) {
+		if (command == this->commands[i]) {
+			valid = true;
+		}
+	}
+	return valid;
+
 }
