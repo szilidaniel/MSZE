@@ -1,6 +1,7 @@
 #include "cmd.h"
 using namespace std;
-
+#include <iostream>
+#include <fstream>
 
 Pair::Pair() {
 	this->folder = "";
