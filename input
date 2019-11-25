@@ -13,4 +13,4 @@ mkdir ss
 cd ss
 cd ../..
 ls
-q
+exit
