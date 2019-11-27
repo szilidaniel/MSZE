@@ -33,7 +33,6 @@ jobs:
       - run: 'doxygen Doxyfile'
       - run: 'sudo apt-get install texmaker'
       - run: 'doxygen -w latex header.tex footer.tex doxygen.sty'
-      - run: 'pdflatex doxymake'
       - store_artifacts:
           path: .
           destination: Doxyfiles
@@ -44,6 +43,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: 'chmod 755 unittestmake'
       - run: './unittestmake'
 
 workflows:
