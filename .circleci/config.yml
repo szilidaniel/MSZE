@@ -37,6 +37,14 @@ jobs:
       - store_artifacts:
           path: .
           destination: Doxyfiles
+unittest:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: './unittestmake'
 
 workflows:
   version: 2
