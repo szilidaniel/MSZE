@@ -1,3 +1,5 @@
+#!/bin/bash
+
 GOOGLE_TEST_LIB = gtest
 GOOGLE_TEST_INCLUDE = /usr/local/include
 
