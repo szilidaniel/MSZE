@@ -17,6 +17,6 @@ cmd.o: cmd.cpp
 cmdtest.o: cmdtest.cpp
 	g++ $(G++_FLAGS) $<
 $(TARGET): $(OBJECTS)
-            g++ -o $(TARGET) $(OBJECTS) $(LD_FLAGS)
+	g++ -o $(TARGET) $(OBJECTS) $(LD_FLAGS)
 clean:
 	rm -f *.o
