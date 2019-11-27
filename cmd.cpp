@@ -308,8 +308,7 @@ void Dictionary::splitString(string& str, vector<string>& out, string delim) {
 }
 
 void Dictionary::addPairToVector(string folder, string subfolder) {
-	Pair p(folder, subfolder);
-	this->system.push_back(p);
+	this->system.push_back(Pair(folder, subfolder));
 }
 
 void Dictionary::splitFolderPath(string line) {
