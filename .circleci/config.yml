@@ -37,7 +37,7 @@ jobs:
       - store_artifacts:
           path: .
           destination: Doxyfiles
-unittest:
+  unittest:
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -55,5 +55,8 @@ workflows:
           requires:
             - build
       - doxygen:
+          requires:
+            - build
+      - unittest:
           requires:
             - build
