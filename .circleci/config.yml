@@ -43,30 +43,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: 
-          name: 'Install GoogleTest'
-          command: |
-            git submodule init
-            git submodule update
-            sudo apt-get -y -q update
-            sudo apt-get -y -q install libgtest-dev
-            sudo apt-get -y -q install cmake
-            cd /usr/src/gtest
-            sudo cmake CMakeLists.txt
-            sudo make
-            sudo cp *.a /usr/lib
-            cd $HOME/project
-      - run: 
-          name: 'Build Executable'
-          command: 'make && make clean'
-      - run: 
-          name: 'Build Unit Test'
-          command: 'make test && make clean'
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./bin/bin.out
-            - ./bin/bin.test
+      - run: 'mkdir -p ~/build'
+      - run: 'cd ~/build'
+      - run: 'git clone https://github.com/google/googletest.git'
+      - run: 'sudo update'
+      - run: 'sudo install cmake'
 
 workflows:
   version: 2
