@@ -43,7 +43,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-       - run: 
+      - run: 
           name: 'Install GoogleTest'
           command: |
             git submodule init
