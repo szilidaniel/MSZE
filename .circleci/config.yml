@@ -43,17 +43,12 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: 'mkdir -p ~/build'
-      - run: 'cd ~/build'
-      - run: 'git clone https://github.com/google/googletest.git'
+      - run: 'sudo apt install libgtest-dev'
+      - run: 'cd /usr/src/gtest'
+      - run: 'sudo mkdir gbuild'
       - run: 'sudo apt-get install cmake'
-      - run: 'GTEST_DIR=~/build/googletest/googletest'
-      - run: 'g++ -isystem /build/googletest/googletest/include -I /build/googletest/googletest -pthread -c $/build/googletest/googletest/src/gtest-all.cc'
-      - run: 'ar -rv libgtest.a gtest-all.o'
-      - run: 'cd ~/build/googletest/googletest/'
-      - run: 'ls *.a'
-      - run: 'cd /build/googletest/googletest/make'
-      - run: 'make'
+      - run: 'sudo make'
+      - run: 'sudo cp -a libgtest*.a /usr/local/lib/'
       - run: './cmdtest'
 workflows:
   version: 2
