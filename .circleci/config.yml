@@ -48,7 +48,6 @@ jobs:
       - run: 'sudo mkdir gbuild'
       - run: 'sudo apt-get install cmake'
       - run: 'sudo make'
-      - run: 'sudo ls libgtest*.a '
       - run: './cmdtest'
 workflows:
   version: 2
