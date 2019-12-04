@@ -52,7 +52,7 @@ jobs:
       - run: 'ar -rv libgtest.a gtest-all.o'
       - run: 'cd ~/build/googletest/googletest/'
       - run: 'ls *.a'
-      - run: 'cd ${GTEST_DIR}/make'
+      - run: 'cd $GTEST_DIR/make'
       - run: 'make'
       - run: './cmdtest'
 workflows:
