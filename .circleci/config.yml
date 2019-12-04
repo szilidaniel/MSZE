@@ -48,7 +48,7 @@ jobs:
       - run: 'git clone https://github.com/google/googletest.git'
       - run: 'sudo apt-get install cmake'
       - run: 'GTEST_DIR=~/build/googletest/googletest'
-      - run: 'g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} -pthread -c ${GTEST_DIR}/src/gtest-all.cc'
+      - run: 'g++ -isystem $GTEST_DIR/include -I$GTEST_DIR -pthread -c $GTEST_DIR/src/gtest-all.cc'
       - run: 'ar -rv libgtest.a gtest-all.o'
       - run: 'cd ~/build/googletest/googletest/'
       - run: 'ls *.a'
