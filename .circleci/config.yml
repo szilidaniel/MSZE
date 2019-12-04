@@ -43,8 +43,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: 'sudo apt install libgtest-dev'
-      - run: 'cd /usr/src/gtest'
+      - run: 'git clone https://github.com/google/googletest.git'
+      - run: 'cd /usr/src/googletest/googletest'
       - run: 'sudo mkdir gbuild'
       - run: 'sudo apt-get install cmake'
       - run: 'sudo make'
