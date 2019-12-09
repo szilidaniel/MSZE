@@ -46,16 +46,15 @@ jobs:
           name: 'Build Unit Test'
           command: 'make test && make clean'
       - persist_to_workspace:
-          at: .
+          root: .
+          paths:
+            - terminal
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
       - test:
-          requires:
-            - build
-      - doxygen:
           requires:
             - build
       - unittest:
