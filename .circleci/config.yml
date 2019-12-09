@@ -43,12 +43,19 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: 'git clone https://github.com/google/googletest.git'
-      - run: 'cd ./googletest/googletest'
-      - run: 'sudo mkdir gbuild'
-      - run: 'sudo apt-get install cmake'
-      - run: 'sudo make'
-      - run: './cmdtest'
+       - run: 
+          name: 'Install GoogleTest'
+          command: |
+            git submodule init
+            git submodule update
+            sudo apt-get -y -q update
+            sudo apt-get -y -q install libgtest-dev
+            sudo apt-get -y -q install cmake
+            cd /usr/src/gtest
+            sudo cmake CMakeLists.txt
+            sudo make
+            sudo cp *.a /usr/lib
+            cd $HOME/project
 workflows:
   version: 2
   build_and_test:
