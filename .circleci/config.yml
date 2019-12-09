@@ -39,6 +39,17 @@ jobs:
             sudo make
             sudo cp *.a /usr/lib
             cd $HOME/project
+      - run: 
+          name: 'Build Executable'
+          command: 'make && make clean'
+      - run: 
+          name: 'Build Unit Test'
+          command: 'make test && make clean'
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./bin/bin.out
+            - ./bin/bin.test
 workflows:
   version: 2
   build_and_test:
